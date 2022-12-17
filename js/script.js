@@ -54,7 +54,7 @@
       /* create HTML of the link */
       const link = `<li><a href="#${articleId}"><span>${articleTitle}</span></a></li>`;
       /* insert link into titleList */
-      linksList.innerHTML += link;
+      linksList?.insertAdjacentHTML("beforeend", link);
     }
 
     const links = document.querySelectorAll(".titles a");
