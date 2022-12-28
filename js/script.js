@@ -39,7 +39,9 @@
     optArticleTagsSelector = '.post-tags .list',
     optArticleAuthorSelector = '.post-author',
     optTagsListSelector = '.tags.list',
-    optTagsLinksSelector = 'a[href^="#tag-"]';
+    optTagsLinksSelector = 'a[href^="#tag-"]',
+    optCloudClassCount = 5,
+    optCloudClassPrefix = 'tag-size-';
 
   const generateTitleLinks = function (customSelector = '') {
     console.log('generating links...');
@@ -150,20 +152,28 @@
   };
 
   const calculateTagsParams = function (tags) {
-    let max, min;
-    for (let tag of Object.values(tags)) {
-      if (!min || !max) {
-        min = tag;
-        max = tag;
-      } else {
-        min = Math.min(min, tag);
-        max = Math.max(max, tag);
+    const params = { min: 999999, max: 0 };
+    for (let tag in tags) {
+      console.log(tag + ' is used ' + tags[tag] + ' times');
+      if (tags[tag] > params.max) {
+        params.max = tags[tag];
+      }
+      if (tags[tag] < params.min) {
+        params.min = tags[tag];
       }
     }
-    return {
-      min: min,
-      max: max,
-    };
+    return params;
+  };
+
+  const calculateTagClass = function (count, params) {
+    /* create range value*/
+    const range = params.max - params.min;
+    /* calculate size */
+    const size = Math.floor(
+      ((count - params.min) / range) * (optCloudClassCount - 1) + 1
+    );
+    console.log(size);
+    return size;
   };
 
   const generateTags = function () {
@@ -228,8 +238,11 @@
     /* [NEW] START LOOP: for each tag in allTags: */
     for (let tag in allTags) {
       /* [NEW] generate code of a link and add it to allTagsHTML */
-      allTagsHTML +=
-        '<li><a href="#tag-' +
+      const tagLinkHTML =
+        '<li><a class="' +
+        optCloudClassPrefix +
+        calculateTagClass(allTags[tag], tagsParams) +
+        '" href="#tag-' +
         tag +
         '">' +
         tag +
@@ -237,6 +250,7 @@
         ' (' +
         allTags[tag] +
         ') </li>';
+      allTagsHTML += tagLinkHTML;
     }
     /* [NEW] END LOOP: for each tag in allTags: */
     /*[NEW] add HTML from allTagsHTML to tagList */
