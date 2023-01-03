@@ -247,8 +247,18 @@
       </main>
     </div>
   </div>
+  <script id="template-author-right-list" type="text/x-handlebars-template">
+    {{#each authors}}
+    <li><a href="#author-{{ id }}">{{ title }}</a></li>
+    {{/each}}
+  </script>
+  <script id="template-tag-cloud-link" type="text/x-handlebars-template">
+    {{#each tags}}
+    <li><a class="{{ className }}" href="#tag-{{ tag }}">{{ tag }}</a></li>
+    {{/each}}
+  </script>
   <script id="template-article-author" type="text/x-handlebars-template">
-    <a class="author-column" href="#{{ id }}">{{ title }}</a>
+    <a class="author-column" href="#author-{{ id }}">{{ title }}</a>
   </script>
   <script id="template-article-link" type="text/x-handlebars-template">
     <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
