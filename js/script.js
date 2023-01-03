@@ -242,9 +242,9 @@
       /* START LOOP: for each tag */
       for (let tag of articleTagsArray) {
         /* generate HTML of the link */
-        const tagId = 'tag-' + tag;
+        const tagId = tag;
         const tagsHTMLData = { id: tagId, title: tag };
-        const tagsHTML = templates.articleLink(tagsHTMLData);
+        const tagsHTML = templates.articleTags(tagsHTMLData);
 
         /* add generated code to html variable */
         html += tagsHTML;
